@@ -30,8 +30,8 @@ package papi;
 
 public class Papi {
 	public static void init() {
-		System.loadLibrary("papi");
-		System.loadLibrary("papijava");
+		System.load("/usr/local/lib/libpapi.so");
+		System.load("/usr/local/lib/libpapijava.so");
 		
 		int ok = Wrapper.initLibrary(Constants.PAPI_VER_CURRENT);
 		
