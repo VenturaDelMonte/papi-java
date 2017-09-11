@@ -54,7 +54,7 @@ libpapijava.so: $(JNI_OBJECTS)
 	$(CC) $(CFLAGS) -o $@ -shared $(CFLAGS_JNI) $(JNI_OBJECTS) $(LDFLAGS)
 
 papi.jar: src/papi/*.class
-	$(JAR) cf $@ -C src .
+	$(JAR) cf $@ -C src . 
 
 papi-tests.jar: test/papi/*.class
 	$(JAR) cf $@ -C test .
