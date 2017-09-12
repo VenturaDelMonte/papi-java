@@ -49,6 +49,13 @@ JNIEXPORT jint JNICALL Java_papi_Wrapper_eventSetCreate
 		return rc;
 	}
 
+	rc = PAPI_assign_eventset_component(eventset, 0);
+
+	if (rc != PAPI_OK) {
+		DEBUG_PRINT("cannot bind eventset %d to component", eventset);
+		return rc;
+	}
+
 	jlong *eventsetidoutj = (*env)->GetLongArrayElements(env, eventsetidoutarr, NULL);
 	long long *eventsetidout = (long long *) eventsetidoutj;
 	eventsetidout[0] = eventset;
