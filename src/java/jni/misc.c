@@ -30,7 +30,7 @@
 #include "papijava.h"
 
 #include <stdlib.h>
-
+#include <pthread.h>
 #include <papi.h>
 
 JNIEXPORT jint JNICALL Java_papi_Wrapper_initLibrary
@@ -39,6 +39,11 @@ JNIEXPORT jint JNICALL Java_papi_Wrapper_initLibrary
 	if (version != PAPI_VER_CURRENT) {
 		return PAPI_ENOSUPP;
 	}
-
 	return PAPI_library_init(PAPI_VER_CURRENT);
+}
+
+JNIEXPORT jint JNICALL Java_papi_Wrapper_initThread
+		(JNIEnv UNUSED_ARG(*env), jclass UNUSED_ARG(self)) {
+
+  return PAPI_thread_init(pthread_self);
 }

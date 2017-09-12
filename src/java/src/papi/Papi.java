@@ -29,14 +29,21 @@
 package papi;
 
 public class Papi {
-	public static void init() {
+	static {
 		System.load("/usr/local/lib/libpapi.so");
 		System.load("/usr/local/lib/libpapijava.so");
-		
+
 		int ok = Wrapper.initLibrary(Constants.PAPI_VER_CURRENT);
-		
+
 		if (ok != Constants.PAPI_VER_CURRENT) {
-			throw new PapiRuntimeException(ok, "Library initialization failed.");
+			throw new PapiRuntimeException(ok, "PAPI Library initialization failed.");
+		}
+	}
+
+	static public void initThread() {
+		int ok = Wrapper.initThread();
+		if (ok != Constants.PAPI_OK) {
+			throw new PapiRuntimeException(ok, "PAPI Thread initialization failed.");
 		}
 	}
 }

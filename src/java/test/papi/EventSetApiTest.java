@@ -36,19 +36,19 @@ import static org.junit.Assert.*;
 public class EventSetApiTest {
 	@BeforeClass
 	public static void initialization() {
-		Papi.init();
+		Papi.initThread();
 	}
 
 	@Test
 	public void nullArgumentForCreatingEventSetFails() {
 		assertEquals(Constants.PAPI_EINVAL, Wrapper.eventSetCreate(null));
 	}
-	
+
 	@Test
 	public void emptyArrayArgumentForCreatingEventSetFails() {
 		assertEquals(Constants.PAPI_EINVAL, Wrapper.eventSetCreate(new long[0]));
 	}
-	
+
 	@Test
 	public void tooBigArrayArgumentForCreatingEventSetFails() {
 		assertEquals(Constants.PAPI_EINVAL, Wrapper.eventSetCreate(new long[2]));

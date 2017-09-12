@@ -36,14 +36,14 @@ import static org.junit.Assert.*;
 public class HighLevelApiTest {
 	@BeforeClass
 	public static void initialization() {
-		Papi.init();
+		Papi.initThread();
 	}
 
 	@Test
 	public void impossibleToStartNullEvents() {
 		assertEquals(Constants.PAPI_EINVAL, Wrapper.startCounters(null));
 	}
-	
+
 	@Test
 	public void impossibleToStartNoEvents() {
 		assertEquals(Constants.PAPI_EINVAL, Wrapper.startCounters(new int[0]));
