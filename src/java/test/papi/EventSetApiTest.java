@@ -57,7 +57,8 @@ public class EventSetApiTest {
 	@Test
 	public void testMixedEvents() {
 		long[] eventset = new long[1];
-		int[] events = new int[] { 0x4000002f, 0x40000030 };
+		long ev = 0x4000002f;
+		int[] events = new int[] { (int) ev };// { 0x4000002f, 0x40000030 };
 		assertEquals(Constants.PAPI_OK, Wrapper.eventSetCreate(eventset));
 		assertEquals(Constants.PAPI_OK, Wrapper.eventSetAddEvents(eventset[0], events));
 	}

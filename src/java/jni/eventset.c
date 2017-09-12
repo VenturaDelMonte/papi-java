@@ -84,7 +84,7 @@ JNIEXPORT jint JNICALL Java_papi_Wrapper_eventSetAddEvents
 		DEBUG_PRINT("events array is NULL!");
 		return PAPI_EINVAL;
 	}
-
+	PAPI_set_debug(PAPI_VERB_ECONT);
 	int eventset = (int) eventsetid;
 	DEBUG_PRINT("eventset is %d", eventset);
 	int target_component = 0;
@@ -97,13 +97,13 @@ JNIEXPORT jint JNICALL Java_papi_Wrapper_eventSetAddEvents
 		DEBUG_PRINT("eventset %d binded to component %d", eventset, target_component);
 	}
 
-
+	int num_component = PAPI_num_components();
 	const PAPI_component_info_t *cmpinfo = NULL;
 
 	if ((cmpinfo = PAPI_get_component_info(0)) == NULL) {
 		DEBUG_PRINT("cantget component");
 	} else {
-		DEBUG_PRINT("component %d %s %d %d", cmpinfo->CmpIdx, cmpinfo->name, cmpinfo->num_preset_events, cmpinfo->num_native_events); 
+		DEBUG_PRINT("component %d/%d %s %d %d", cmpinfo->CmpIdx, num_component, cmpinfo->name, cmpinfo->num_preset_events, cmpinfo->num_native_events); 
 	}
 
 

@@ -29,7 +29,7 @@
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -DPAPIJAVA_DEBUG 
+CFLAGS = -Wall -Wextra -I/home/bdelmonte/papi/papi-5.5.1/src -Werror -DPAPIJAVA_DEBUG 
 CFLAGS_JNI = -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/linux -fPIC
 LDFLAGS = -lpapi
 
@@ -46,7 +46,7 @@ JNI_OBJECTS = jni/highlevel.o jni/eventset.o jni/misc.o
 
 JAVA_JUNIT_TESTS = papi.HighLevelApiTest papi.EventSetApiTest
 
-PAPI_LIBRARY_PATH = ../
+PAPI_LIBRARY_PATH = /usr/local/lib  # /home/bdelmonte/papi/papi-5.5.1/src
 
 all: libpapijava.so papi.jar papi-tests.jar
 
