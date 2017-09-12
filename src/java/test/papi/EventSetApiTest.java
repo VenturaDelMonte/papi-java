@@ -53,4 +53,14 @@ public class EventSetApiTest {
 	public void tooBigArrayArgumentForCreatingEventSetFails() {
 		assertEquals(Constants.PAPI_EINVAL, Wrapper.eventSetCreate(new long[2]));
 	}
+	
+	@Test
+	public void testMixedEvents() {
+		long[] eventset = new long[1];
+		int[] events = new int[] { 0x4000002f, 0x40000030 };
+		assertEquals(Constants.PAPI_OK, Wrapper.eventSetCreate(eventset));
+		assertEquals(Constants.PAPI_OK, Wrapper.eventSetAddEvents(eventset[0], events));
+	}
+
+
 }

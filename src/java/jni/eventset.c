@@ -48,14 +48,7 @@ JNIEXPORT jint JNICALL Java_papi_Wrapper_eventSetCreate
 	if (rc != PAPI_OK) {
 		return rc;
 	}
-
-	rc = PAPI_assign_eventset_component(eventset, 0);
-
-	if (rc != PAPI_OK) {
-		DEBUG_PRINT("cannot bind eventset %d to component", eventset);
-		return rc;
-	}
-
+	
 	jlong *eventsetidoutj = (*env)->GetLongArrayElements(env, eventsetidoutarr, NULL);
 	long long *eventsetidout = (long long *) eventsetidoutj;
 	eventsetidout[0] = eventset;
@@ -92,17 +85,43 @@ JNIEXPORT jint JNICALL Java_papi_Wrapper_eventSetAddEvents
 		return PAPI_EINVAL;
 	}
 
+	int eventset = (int) eventsetid;
+	DEBUG_PRINT("eventset is %d", eventset);
+	int target_component = 0;
+	int rc = PAPI_assign_eventset_component(eventset, target_component);
+
+	if (rc != PAPI_OK) {
+		DEBUG_PRINT("cannot bind eventset %d to component %d", eventset, target_component);
+		return rc;
+	} else {
+		DEBUG_PRINT("eventset %d binded to component %d", eventset, target_component);
+	}
+
+
+	const PAPI_component_info_t *cmpinfo = NULL;
+
+	if ((cmpinfo = PAPI_get_component_info(0)) == NULL) {
+		DEBUG_PRINT("cantget component");
+	} else {
+		DEBUG_PRINT("component %d %s %d %d", cmpinfo->CmpIdx, cmpinfo->name, cmpinfo->num_preset_events, cmpinfo->num_native_events); 
+	}
+
+
+//	rc = PAPI_set_multiplex(eventset);
+
+//	if (rc != PAPI_OK) {
+//		DEBUG_PRINT("event set %d cant be multiplex", eventset);
+//	}
+
 	int events_count = (*env)->GetArrayLength(env, eventsarr);
 	if (events_count == 0) {
 		return PAPI_OK;
 	}
 
-	int eventset = (int) eventsetid;
-	DEBUG_PRINT("eventset is %d", eventset);
 
 	jint *eventsj = (*env)->GetIntArrayElements(env, eventsarr, NULL);
 	int *events = (int *) eventsj;
-	int rc = PAPI_add_events(eventset, events, events_count);
+	rc = PAPI_add_events(eventset, events, events_count);
 	(*env)->ReleaseIntArrayElements(env, eventsarr, eventsj, JNI_ABORT);
 
 	DEBUG_PRINT("returning %d (%s)", rc, PAPI_strerror(rc));
